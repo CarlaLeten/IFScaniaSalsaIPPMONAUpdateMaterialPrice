@@ -1,0 +1,193 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "DevTest WS API for MMC Mona price",
+    "version": "2.0",
+    "title": "MMCMonaPrices"
+  },
+  "host": "apim.devtest.aws.scania.com",
+  "basePath": "/mipsdev/v1.0",
+  "schemes": [
+    "https"
+  ],
+  "security": [
+    {
+      "default": []
+    }
+  ],
+  "paths": {
+    "/transaction": {
+      "get": {
+        "summary": "Get all part prices (paging)",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "X-Correlation-ID",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Get part prices from offset",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Show partprices per page",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of Part Prices",
+            "schema": {
+              "$ref": "#/definitions/PartPricesObject"
+            }
+          }
+        },
+        "security": [
+          {
+            "default": [
+              "PriceManagement_V1_PriceReadScope"
+            ]
+          }
+        ],
+        "x-auth-type": "Application \u0026 Application User",
+        "x-throttling-tier": "50KPerMin"
+      }
+    }
+  },
+  "securityDefinitions": {
+    "default": {
+      "type": "oauth2",
+      "authorizationUrl": "https://apim.devtest.aws.scania.com/authorize",
+      "flow": "implicit",
+      "scopes": {
+        "PriceManagement_V1_PriceReadScope": "",
+        "PriceManagement_V1_PriceWriteScope": ""
+      },
+      "x-scopes-bindings": {
+        "PriceManagement_V1_PriceWriteScope": "",
+        "PriceManagement_V1_PriceReadScope": ""
+      }
+    }
+  },
+  "definitions": {
+    "ArrayPartPrices":{
+      "type": "array",
+      "items": {
+            "$ref": "#/definitions/PartPricesObject"
+        }
+    },
+    "PartPricesObject": {
+      "type": "object",
+      "properties": {
+        "partprices": {
+          "type": "array",
+          "description": "Part Prices Array",
+          "items": {
+            "$ref": "#/definitions/ArrayOfPartPriceObjects"
+          }
+        }
+      }
+    },
+    "ArrayOfPartPriceObjects": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/PartPriceObject"
+      },
+      "example": [
+        {
+            "part": "590380",
+            "parttype": "P",
+            "purchcodes": [
+                "R7"
+            ],
+            "stdprice": 111.4771,
+            "unit": "PCE",
+            "period": "2023",
+            "pricesource": "6",
+            "kittype": null,
+            "mvprice": 111.4771,
+            "pcprice": 0
+        },
+        {
+            "part": "2990213",
+            "parttype": "P",
+            "purchcodes": [
+                "B20"
+            ],
+            "stdprice": 510.1885,
+            "unit": "PCE",
+            "period": "2023",
+            "pricesource": "1",
+            "kittype": null,
+            "mvprice": 510.1885,
+            "pcprice": 0
+        }
+      ]
+    },
+    "PartPriceObject": {
+      "type": "object",
+      "properties": {
+        "part": {
+          "type": "string",
+          "example": "2574149",
+          "description": "Part number"
+        },
+        "parttype": {
+          "type": "string",
+          "example": "P",
+          "description": "Type of part (P or M)"
+        },
+        "purchcode": {
+            "type": "string",
+            "example": "D53",
+            "description": "Purcahser code"
+        },
+        "stdprice": {
+            "type": "number",
+            "example": 375.9341,
+            "description": "Std price (MV+PC)"
+        },
+        "unit": {
+            "type": "string",
+            "example": "PCE",
+            "description": "Unit of measurements"
+        },
+        "period": {
+            "type": "string",
+            "example": "2023",
+            "description": "Year"
+          },
+        "pricesource": {
+            "type": "string",
+            "example": "1",
+            "description": "Price source"
+        },
+        "kittype": {
+            "type": "string",
+            "example": null,
+            "description": "Kit type"
+        },
+        "mvPrice": {
+            "type": "number",
+            "example": 375.9341,
+            "description": "Material value"
+        },
+        "pcPrice": {
+            "type": "number",
+            "example": 0.0,
+            "description": "Production cost"
+          }
+      }
+    }
+  }
+}

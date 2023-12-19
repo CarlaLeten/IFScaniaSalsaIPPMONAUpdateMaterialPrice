@@ -1,0 +1,365 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "DevTest WS API for MMC Mona price",
+    "version": "2.0",
+    "title": "MMCMonaPrices"
+  },
+  "host": "apim.devtest.aws.scania.com",
+  "basePath": "/mmcmonaprice/v1.0",
+  "schemes": [
+    "https"
+  ],
+  "security": [
+    {
+      "default": []
+    }
+  ],
+  "paths": {
+    "/getupdpartprice": {
+      "get": {
+        "summary": "Get part prices from date",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "X-Correlation-ID",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "fromdate",
+            "in": "query",
+            "description": "From date (format YYYYMMDD)",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of part price objects",
+            "schema": {
+              "$ref": "#/definitions/ArrayOfPartPriceObjects"
+            }
+          }
+        },
+        "security": [
+          {
+            "default": [
+              "PriceManagement_V1_PriceReadScope"
+            ]
+          }
+        ],
+        "x-auth-type": "Application \u0026 Application User",
+        "x-throttling-tier": "50KPerMin"
+      }
+    },
+    "/gettotnrofparts": {
+      "get": {
+        "summary": "Get total number of parts",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "X-Correlation-ID",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Total number of parts for the latest year (no json format)",
+            "schema": {
+              "type": "number",
+              "example": 214970
+            }
+          }
+        },
+        "security": [
+          {
+            "default": [
+              "PriceManagement_V1_PriceReadScope"
+            ]
+          }
+        ],
+        "x-auth-type": "Application \u0026 Application User",
+        "x-throttling-tier": "50KPerMin"
+      }
+    },
+    "/postcomponentpart": {
+      "post": {
+        "summary": "Add component part",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "X-Correlation-ID",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "part",
+            "in": "query",
+            "description": "Part number",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "desc",
+            "in": "query",
+            "description": "Part description",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "price",
+            "in": "query",
+            "description": "Part price",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "default": [
+              "PriceManagement_V1_PriceWriteScope"
+            ]
+          }
+        ],
+        "x-auth-type": "Application \u0026 Application User",
+        "x-throttling-tier": "50KPerMin"
+      }
+    },
+    "/getpartprice": {
+      "get": {
+        "summary": "Get part price",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "X-Correlation-ID",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "partnumber",
+            "in": "query",
+            "description": "Part number",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A part price object",
+            "schema": {
+              "$ref": "#/definitions/PartPriceObject"
+            }
+          }
+        },
+        "security": [
+          {
+            "default": [
+              "PriceManagement_V1_PriceReadScope"
+            ]
+          }
+        ],
+        "x-auth-type": "Application \u0026 Application User",
+        "x-throttling-tier": "50KPerMin"
+      }
+    },
+    "/getallpartprices": {
+      "get": {
+        "summary": "Get all part prices (paging)",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "X-Correlation-ID",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Get part prices from offset",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Show partprices per page",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of part price objects",
+            "schema": {
+              "$ref": "#/definitions/ArrayOfPartPriceObjects"
+            }
+          }
+        },
+        "security": [
+          {
+            "default": [
+              "PriceManagement_V1_PriceReadScope"
+            ]
+          }
+        ],
+        "x-auth-type": "Application \u0026 Application User",
+        "x-throttling-tier": "50KPerMin"
+      }
+    },
+    "/postcomponentpartbatch": {
+      "post": {
+        "description": "Add component parts in batch",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "inbody",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Correlation-ID",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "default": [
+              "PriceManagement_V1_PriceWriteScope"
+            ]
+          }
+        ],
+        "x-auth-type": "Application \u0026 Application User",
+        "x-throttling-tier": "50KPerMin"
+      }
+    }
+  },
+  "securityDefinitions": {
+    "default": {
+      "type": "oauth2",
+      "authorizationUrl": "https://apim.devtest.aws.scania.com/authorize",
+      "flow": "implicit",
+      "scopes": {
+        "PriceManagement_V1_PriceReadScope": "",
+        "PriceManagement_V1_PriceWriteScope": ""
+      },
+      "x-scopes-bindings": {
+        "PriceManagement_V1_PriceWriteScope": "",
+        "PriceManagement_V1_PriceReadScope": ""
+      }
+    }
+  },
+  "definitions": {
+    "ArrayOfPartPriceObjects": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/PartPriceObject"
+      },
+      "example": [
+        {
+          "mvPrice": 375.9341,
+          "part": "2574149",
+          "parttype": "P",
+          "pcPrice": 0,
+          "period": "2023",
+          "price": 375.9341,
+          "pricesource": "1",
+          "purchcode": "D53",
+          "uom": "PCE"
+        },
+        {
+          "mvPrice": 1427.8487,
+          "part": "2623394",
+          "parttype": "P",
+          "pcPrice": 0,
+          "period": "2023",
+          "price\"": 1427.8487,
+          "pricesource": "6",
+          "purchcode": "R3",
+          "uom": "PCE"
+        }
+      ]
+    },
+    "PartPriceObject": {
+      "type": "object",
+      "properties": {
+        "mvPrice": {
+          "type": "number",
+          "example": 375.9341,
+          "description": "Material value"
+        },
+        "part": {
+          "type": "string",
+          "example": "2574149",
+          "description": "Part number"
+        },
+        "parttype": {
+          "type": "string",
+          "example": "P",
+          "description": "Type of part (P or M)"
+        },
+        "pcPrice": {
+          "type": "number",
+          "example": 0.0,
+          "description": "Production cost"
+        },
+        "period": {
+          "type": "string",
+          "example": "2023",
+          "description": "Year"
+        },
+        "price": {
+          "type": "number",
+          "example": 375.9341,
+          "description": "Std price (MV+PC)"
+        },
+        "pricesource": {
+          "type": "string",
+          "example": "1",
+          "description": "Price source"
+        },
+        "purchcode": {
+          "type": "string",
+          "example": "D53",
+          "description": "Purcahser code"
+        },
+        "uom": {
+          "type": "string",
+          "example": "PCE",
+          "description": "Unit of measurements"
+        }
+      }
+    }
+  }
+}
